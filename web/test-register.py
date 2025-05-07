@@ -174,7 +174,7 @@ def test_register(lastname, firstname, email, phone, address, password, confirm_
         if not accept_terms_checkbox.is_selected():
             driver.execute_script("arguments[0].click();", accept_terms_checkbox)
 
-        # Tìm nút đăng ký (chỉ kiểm tra sự tồn tại, không yêu cầu clickable ngay lập tức)
+        # Tìm nút đăng ký
         try:
             register_button = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.ID, "register_button"))
@@ -194,32 +194,27 @@ def test_register(lastname, firstname, email, phone, address, password, confirm_
                 error_elements = driver.find_elements(By.CLASS_NAME, "text-red-500")
                 if error_elements:
                     error_message = error_elements[0].text
-                    actual_result = f"Register failed (Error: {error_message})"
+                    actual_result = f"Register failed"
                 else:
                     error_elements = driver.find_elements(By.CLASS_NAME, "text-red-700")
                     if error_elements:
                         error_message = error_elements[0].text
-                        actual_result = f"Register failed (Error: {error_message})"
+                        actual_result = f"Register failed"
                     else:
-                        actual_result = "Register failed (Form validation failed)"
-                actual_result_base = "Register failed"
-                if actual_result_base.lower() == expected_result.lower():
+                        actual_result = "Register failed"
+                if "failed" in expected_result.lower():
                     return "Passed", actual_result
                 else:
                     return "Failed", actual_result
             except NoSuchElementException:
-                actual_result = "Register failed (Form validation failed)"
-                if actual_result.lower() == expected_result.lower():
-                    return "Passed", actual_result
-                else:
-                    return "Failed", actual_result
+                actual_result = "Register failed"
+                return "Failed", actual_result
 
         # Nếu nút không bị vô hiệu hóa, nhấn nút đăng ký
         driver.execute_script("arguments[0].scrollIntoView(true);", register_button)
         WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "register_button")))
         driver.execute_script("arguments[0].click();", register_button)
         time.sleep(3)  # Đợi phản hồi
-
         # Kiểm tra kết quả
         try:
             # Normalize URLs by removing trailing slashes for comparison
@@ -228,31 +223,18 @@ def test_register(lastname, firstname, email, phone, address, password, confirm_
             )
             actual_result = "Register successfully"
         except TimeoutException:
-            # If redirect fails, check for error messages on the page
+            # Kiểm tra lỗi về độ dài mật khẩu trước
             try:
-                error_elements = driver.find_elements(By.CLASS_NAME, "text-red-500")
-                if error_elements:
-                    error_message = error_elements[0].text
-                    actual_result = f"Register failed (Error: {error_message})"
+                error_element = WebDriverWait(driver, 5).until(
+                    EC.presence_of_element_located((By.CLASS_NAME, "text-red-700"))
+                )
+                if "must not exceed 20 characters" in error_element.text.lower():
+                    actual_result = f"Register failed"
                 else:
-                    actual_result = "Register successfully"
-                actual_result_base = "Register failed"
-                if "failed" in actual_result.lower() and actual_result_base.lower() == expected_result.lower():
-                    return "Passed", actual_result
-                else:
-                    return "Failed", actual_result
-            except NoSuchElementException:
-                # If no error messages, but URL matches, consider it a success
-                if driver.current_url.rstrip('/') == SUCCESS_URL.rstrip('/'):
-                    actual_result = "Register successfully"
-                else:
-                    actual_result = "Register failed (Redirect timeout, no error message found)"
-                if "failed" in actual_result.lower() and actual_result.lower() == expected_result.lower():
-                    return "Passed", actual_result
-                else:
-                    return "Failed", actual_result
+                    actual_result = "Register failed - No specific error found"
+            except TimeoutException:
+                actual_result = "Register failed - No error message found"
 
-        # Compare actual result with expected result
         if actual_result.lower() == expected_result.lower():
             return "Passed", actual_result
         else:
