@@ -830,4 +830,4 @@ class TestCartApp(unittest.TestCase):
             print(f"⚠️ Lỗi khi lưu kết quả test: {e}. Vui lòng kiểm tra cột 'Platform' trong file Excel.")
 
 if __name__ == "__main__":
-    unittest.main() 
+    unittest.main()   
