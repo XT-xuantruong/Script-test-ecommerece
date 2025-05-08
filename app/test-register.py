@@ -16,7 +16,8 @@ class TestRegisterApp(unittest.TestCase):
         "platformName": "Android",
         "automationName": "uiautomator2",
         "deviceName": "ce0917192499191c027e",
-        "app": "D:/nam3/KTPM2/application-f292ab0f-89ae-4398-8d43-1bd6318f9bb6.apk",
+        "app": "D:/nam3/KTPM2/application-8bd28935-27e6-428e-9b9e-109d07ab30c4.apk",
+
     }
     appium_server_url = "http://127.0.0.1:4723/wd/hub"
 
@@ -345,7 +346,7 @@ class TestRegisterApp(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         """Lưu kết quả test vào file Excel sau khi hoàn thành"""
-        cls.data_manager.save_register_test_data(
+        cls.data_manager.save_register_test_data(   
             "D:/nam3/KTPM2/Script-test-ecommerece/Result/test_register_result.xlsx"
         )
 
