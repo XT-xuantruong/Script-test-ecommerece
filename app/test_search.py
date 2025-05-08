@@ -389,4 +389,4 @@ class TestSearchApp(unittest.TestCase):
                     print(f"⚠️ Lỗi khi xóa ô tìm kiếm sau {test_id}: {e}")
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main() 
