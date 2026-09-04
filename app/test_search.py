@@ -14,7 +14,7 @@ class TestSearchApp(unittest.TestCase):
     capabilities = {
         "platformName": "Android",
         "automationName": "uiautomator2",
-        "deviceName": "ce0917192499191c027e",
+        "deviceName": "",
         "app": "D:/application-2e2e75d8-a91c-49f4-9c02-84e45244343c.apk",
     }
     appium_server_url = "http://127.0.0.1:4723/wd/hub"
