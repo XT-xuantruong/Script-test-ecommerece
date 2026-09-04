@@ -15,7 +15,7 @@ class TestRegisterApp(unittest.TestCase):
     capabilities = {
         "platformName": "Android",
         "automationName": "uiautomator2",
-        "deviceName": "ce0917192499191c027e",
+        "deviceName": "",
         "app": "D:/nam3/KTPM2/application-8bd28935-27e6-428e-9b9e-109d07ab30c4.apk",
 
     }
