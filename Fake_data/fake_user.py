@@ -3,8 +3,8 @@ import mysql.connector
 
 conn = mysql.connector.connect(
     host="localhost",
-    user="truong12345",
-    password="truong12345",
+    user="12345",
+    password="12345",
     port=3306,
     database="ecommerce_api"
 )
